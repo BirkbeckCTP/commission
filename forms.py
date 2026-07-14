@@ -15,7 +15,13 @@ class CommissionArticle(forms.ModelForm):
         self.fields[
             'section'].queryset = models.Section.objects.filter(
             journal=self.journal,
-            public_submissions=True,
+        )
+        self.fields['section'].label_from_instance = (
+            lambda obj: obj.display_name_public_submission()
+        )
+        self.fields['section'].help_text = (
+            'Commissioned articles can be assigned to any section, '
+            'including those closed for public submission.'
         )
 
     def save(self, commit=True):

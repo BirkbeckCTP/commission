@@ -38,4 +38,6 @@ def hook_registry():
     return {
         'journal_admin_nav_block': {'module': 'plugins.commission.hooks',
                                     'function': 'admin_hook'},
+        'submission_form_init': {'module': 'plugins.commission.hooks',
+                                 'function': 'submission_form_init'},
     }

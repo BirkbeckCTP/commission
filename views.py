@@ -91,11 +91,11 @@ def commission_article(request):
     :param request: HttpRequest
     :return: HttpResponse
     """
-    form = forms.CommissionArticle()
+    form = forms.CommissionArticle(journal=request.journal)
     success = True
 
     if request.POST:
-        form = forms.CommissionArticle(request.POST)
+        form = forms.CommissionArticle(request.POST, journal=request.journal)
         if form.is_valid():
             _article = form.save()
             com_article, c = models.CommissionedArticle.objects.get_or_create(
@@ -126,7 +126,10 @@ def commissioned_article(request, commissioned_article_id):
     )
     success = True
 
-    form = forms.CommissionArticle(instance=commissioned_article.article)
+    form = forms.CommissionArticle(
+        instance=commissioned_article.article,
+        journal=request.journal,
+    )
     existing_author_form = forms.ExistingAuthor()
     author_form = AuthorForm()
 
@@ -147,6 +150,7 @@ def commissioned_article(request, commissioned_article_id):
             form = forms.CommissionArticle(
                 request.POST,
                 instance=commissioned_article.article,
+                journal=request.journal,
             )
 
             if form.is_valid():
